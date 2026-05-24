@@ -1306,25 +1306,313 @@ img {
     }
 }
 
+/* ============== MOBILE (<= 768px) ============== */
 @media (max-width: 768px) {
+    /* ---- Top nav: logo on left, icons on right ---- */
     .nav-container {
-        flex-wrap: wrap;
+        padding: 14px 16px;
         gap: 12px;
+        flex-wrap: wrap;
     }
+    .logo img {
+        height: 24px;
+    }
+    .nav-links {
+        order: 2;
+        margin-left: auto;
+        gap: 10px;
+    }
+    /* Hide the text links and the "For businesses" button on mobile */
+    .nav-link {
+        display: none;
+    }
+    .btn-businesses {
+        display: none;
+    }
+    /* Show bell icon */
+    .icon-btn {
+        order: 1;
+    }
+    /* Search bar becomes full width on its own row */
     .search-wrap {
         order: 3;
         flex-basis: 100%;
         max-width: 100%;
     }
-    .nav-link {
+    .search-box {
+        height: 44px;
+        padding: 0 16px;
+    }
+
+    /* ---- Breadcrumb: compact, allow horizontal scroll ---- */
+    .breadcrumb-container {
+        padding: 4px 16px 16px;
+    }
+    .breadcrumb {
+        font-size: 13px;
+        gap: 6px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .breadcrumb::-webkit-scrollbar {
         display: none;
     }
-    .company-title {
-        font-size: 28px;
+    .breadcrumb a,
+    .breadcrumb .crumb-current {
+        white-space: nowrap;
     }
+
+    /* ---- Company section ---- */
+    .company-section {
+        padding: 20px 0 40px;
+    }
+    .company-container {
+        padding: 16px;
+        gap: 24px;
+    }
+
     .company-header {
         flex-direction: column;
         gap: 16px;
+        align-items: stretch;
+    }
+    .company-logo {
+        width: 100%;
+        height: auto;
+        max-width: 200px;
+        min-height: 80px;
+    }
+    .company-logo img {
+        max-height: 80px;
+    }
+
+    .company-title {
+        font-size: 26px;
+        line-height: 1.2;
+    }
+
+    .company-meta {
+        flex-wrap: wrap;
+        font-size: 14px;
+    }
+
+    .reviews-count {
+        font-size: 14px;
+    }
+
+    .stars-wrap img {
+        height: 20px;
+    }
+
+    /* Make action buttons full width */
+    .company-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .company-actions .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
+
+    /* ---- Section divider & integrity banner ---- */
+    .section-divider,
+    .integrity-banner {
+        max-width: 100%;
+    }
+    .integrity-content {
+        padding: 0 14px 14px 14px;
+        font-size: 13px;
+    }
+    .integrity-text {
+        font-size: 13px;
+    }
+    .shield-icon {
+        width: 32px;
+        height: 32px;
+    }
+    .shield-icon img {
+        width: 18px;
+        height: 22px;
+    }
+
+    /* ---- Review summary ---- */
+    .summary-title {
+        font-size: 18px;
+    }
+    .summary-body {
+        font-size: 15px;
+    }
+
+    /* ---- Right column / TrustScore card stacks below ---- */
+    .company-right {
+        position: static;
+        max-height: none;
+        overflow: visible;
+    }
+    .score-card,
+    .info-card {
+        max-width: 100%;
+    }
+
+    /* Score card: bars should fill width */
+    .score-top {
+        padding: 20px 18px 12px;
+        gap: 16px;
+    }
+    .score-number {
+        font-size: 32px;
+    }
+    .score-footer {
+        padding: 12px 18px 18px;
+    }
+
+    /* Info cards */
+    .info-card {
+        padding: 14px 16px;
+        gap: 12px;
+    }
+    .info-card-title {
+        font-size: 14px;
+    }
+    .info-card-sub {
+        font-size: 13px;
+    }
+
+    /* ---- Topics carousel ---- */
+    .topics-heading {
+        font-size: 18px;
+    }
+    .topic-card {
+        flex: 0 0 240px;
+        min-height: 150px;
+        padding: 16px;
+    }
+    .topics-nav-prev,
+    .topics-nav-next {
+        display: none;
+    }
+
+    /* ---- Shaping reviews carousel ---- */
+    .shaping-heading {
+        font-size: 18px;
+    }
+    .review-mini-card {
+        flex: 0 0 280px;
+    }
+    .shaping-nav {
+        display: none;
+    }
+
+    /* ---- Details / contact ---- */
+    .details-section {
+        padding: 0 16px;
+    }
+    .details-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .details-heading {
+        font-size: 18px;
+    }
+
+    /* ---- All reviews section ---- */
+    .all-reviews-section {
+        padding: 32px 0 48px;
+    }
+    .all-reviews-container {
+        padding: 0 16px;
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .all-reviews-sidebar {
+        position: static;
+    }
+    .all-reviews-heading {
+        font-size: 24px;
+    }
+    .reviews-filter-bar {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .sort-dropdown-panel {
+        width: calc(100vw - 32px);
+        max-width: 360px;
+        left: 0;
+    }
+    .top-mentions-tags {
+        max-width: 100%;
+    }
+
+    /* Reviews pagination */
+    .reviews-pagination {
+        gap: 6px;
+    }
+    .pagination-btn {
+        min-width: 40px;
+        height: 40px;
+        padding: 0 10px;
+        font-size: 13px;
+    }
+    .pagination-prev,
+    .pagination-next {
+        padding: 0 12px;
+    }
+
+    /* Full review cards */
+    .full-review-card {
+        padding: 18px 16px;
+    }
+
+    /* ---- People also looked at ---- */
+    .similar-section {
+        padding: 32px 16px;
+    }
+    .similar-card {
+        flex: 0 0 180px;
+    }
+
+    /* ---- Footer ---- */
+    .footer-container {
+        padding: 32px 16px 24px;
+    }
+    .footer-cols {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    /* ---- Sticky tabnav: hide on mobile ---- */
+    .sticky-tabnav {
+        display: none !important;
+    }
+}
+
+/* ============== SMALL MOBILE (<= 480px) ============== */
+@media (max-width: 480px) {
+    .company-title {
+        font-size: 22px;
+    }
+    .all-reviews-heading {
+        font-size: 22px;
+    }
+    .topic-card {
+        flex: 0 0 220px;
+    }
+    .review-mini-card {
+        flex: 0 0 260px;
+    }
+    .similar-card {
+        flex: 0 0 160px;
+    }
+    .footer-cols {
+        grid-template-columns: 1fr;
     }
 }
 
