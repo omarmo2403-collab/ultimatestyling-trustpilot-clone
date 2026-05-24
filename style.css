@@ -2197,6 +2197,86 @@ img {
     border-color: #1B1B2F;
 }
 
+.mention-tag {
+    font-family: inherit;
+}
+
+.mention-tag.selected {
+    background: #DBE7FB;
+    color: #3C57BC;
+    border-color: #3C57BC;
+}
+
+.mention-tag.selected:hover {
+    background: #C5D6F8;
+    border-color: #3C57BC;
+}
+
+.selected-mentions {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.selected-mentions[hidden] {
+    display: none;
+}
+
+.selected-mentions-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.selected-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px 6px 14px;
+    background: #DBE7FB;
+    border: 1px solid #3C57BC;
+    border-radius: 999px;
+    font-size: 14px;
+    color: #3C57BC;
+}
+
+.selected-chip-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: none;
+    border: none;
+    padding: 0;
+    color: #3C57BC;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.12s ease;
+}
+
+.selected-chip-remove:hover {
+    background: rgba(60, 87, 188, 0.2);
+}
+
+.reset-mentions {
+    background: none;
+    border: none;
+    color: #3C57BC;
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.reset-mentions:hover {
+    text-decoration: none;
+}
+
 .reviews-divider {
     border: none;
     border-top: 1px solid #DCD6D1;
