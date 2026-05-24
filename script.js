@@ -88,6 +88,54 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ============== TOP MENTIONS FILTER ==============
+    const mentionTags = document.querySelectorAll('.mention-tag');
+    const selectedMentions = document.querySelector('.selected-mentions');
+    const selectedChipsContainer = document.querySelector('.selected-mentions-chips');
+    const resetMentionsBtn = document.querySelector('.reset-mentions');
+
+    if (mentionTags.length && selectedMentions && selectedChipsContainer) {
+        const selectedTopics = new Set();
+
+        const renderChips = () => {
+            selectedChipsContainer.innerHTML = Array.from(selectedTopics).map(topic => {
+                const tag = document.querySelector(`.mention-tag[data-topic="${topic}"]`);
+                const label = tag ? tag.textContent.trim() : topic;
+                return `<span class="selected-chip" data-topic="${topic}">${label}<button type="button" class="selected-chip-remove" data-topic="${topic}" aria-label="Remove ${label}"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.294 8 2 13.294l.706.706L8 8.706 13.294 14l.706-.706L8.706 8 14 2.706 13.294 2 8 7.294 2.706 2 2 2.706 7.294 8Z"/></svg></button></span>`;
+            }).join('');
+            selectedMentions.hidden = selectedTopics.size === 0;
+        };
+
+        const toggleTopic = (topic) => {
+            const tag = document.querySelector(`.mention-tag[data-topic="${topic}"]`);
+            if (selectedTopics.has(topic)) {
+                selectedTopics.delete(topic);
+                if (tag) tag.classList.remove('selected');
+            } else {
+                selectedTopics.add(topic);
+                if (tag) tag.classList.add('selected');
+            }
+            renderChips();
+        };
+
+        mentionTags.forEach(tag => {
+            tag.addEventListener('click', () => toggleTopic(tag.dataset.topic));
+        });
+
+        selectedChipsContainer.addEventListener('click', (e) => {
+            const removeBtn = e.target.closest('.selected-chip-remove');
+            if (removeBtn) toggleTopic(removeBtn.dataset.topic);
+        });
+
+        if (resetMentionsBtn) {
+            resetMentionsBtn.addEventListener('click', () => {
+                selectedTopics.clear();
+                mentionTags.forEach(t => t.classList.remove('selected'));
+                renderChips();
+            });
+        }
+    }
+
     // Topics horizontal scroll
     const topicsScroll = document.querySelector('.topics-scroll');
     const topicsPrev = document.querySelector('.topics-nav-prev');
@@ -239,15 +287,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 Company replied
             </div>` : ''}
             <div class="review-actions">
-                <a href="https://uk.trustpilot.com/users/login" target="_blank" rel="noopener" class="review-action">
+                <a href="https://uk.trustpilot.com/users/connect" target="_blank" rel="noopener" class="review-action">
                     <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.94.94A1.5 1.5 0 0 1 10.5 2a20.774 20.774 0 0 1-.384 4H14.5A1.5 1.5 0 0 1 16 7.5v.066l-1.845 6.9-.094.095A1.5 1.5 0 0 1 13 15H9c-.32 0-.685-.078-1.038-.174-.357-.097-.743-.226-1.112-.349l-.008-.003c-.378-.126-.74-.246-1.067-.335C5.44 14.047 5.18 14 5 14v.941l-5 .625V6h5v.788c.913-.4 1.524-1.357 1.926-2.418A10.169 10.169 0 0 0 7.5 1.973 1.5 1.5 0 0 1 7.94.939Z"/></svg>
                     Useful
                 </a>
-                <a href="https://uk.trustpilot.com/users/login" target="_blank" rel="noopener" class="review-action">
+                <a href="https://uk.trustpilot.com/users/connect" target="_blank" rel="noopener" class="review-action">
                     <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13 1a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-3 2a3 3 0 1 1 .583 1.778L5.867 7.115a3 3 0 0 1 0 1.77l4.716 2.337a3 3 0 1 1-.45.893L5.417 9.778a3 3 0 1 1 0-3.556l4.716-2.337A3.002 3.002 0 0 1 10 3Z"/></svg>
                     Share
                 </a>
-                <a href="https://uk.trustpilot.com/users/login" target="_blank" rel="noopener" class="review-action" style="margin-left:auto" title="Flag this review" aria-label="Flag">
+                <a href="https://uk.trustpilot.com/users/connect" target="_blank" rel="noopener" class="review-action" style="margin-left:auto" title="Flag this review" aria-label="Flag">
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3 .25V0H2v16h1V9.25h11.957l-4.5-4.5 4.5-4.5H3Zm0 1v7h9.543l-3.5-3.5 3.5-3.5H3Z"/></svg>
                 </a>
             </div>
@@ -281,15 +329,15 @@ document.addEventListener('DOMContentLoaded', () => {
             ${r.unprompted ? '<span class="review-detail-badge">Unprompted review</span>' : ''}
         </div>
         <div class="review-detail-actions">
-            <a href="https://uk.trustpilot.com/users/login" target="_blank" rel="noopener" class="review-detail-action">
+            <a href="https://uk.trustpilot.com/users/connect" target="_blank" rel="noopener" class="review-detail-action">
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.94.94A1.5 1.5 0 0 1 10.5 2a20.774 20.774 0 0 1-.384 4H14.5A1.5 1.5 0 0 1 16 7.5v.066l-1.845 6.9-.094.095A1.5 1.5 0 0 1 13 15H9c-.32 0-.685-.078-1.038-.174-.357-.097-.743-.226-1.112-.349l-.008-.003c-.378-.126-.74-.246-1.067-.335C5.44 14.047 5.18 14 5 14v.941l-5 .625V6h5v.788c.913-.4 1.524-1.357 1.926-2.418A10.169 10.169 0 0 0 7.5 1.973 1.5 1.5 0 0 1 7.94.939Z"/></svg>
                 Useful
             </a>
-            <a href="https://uk.trustpilot.com/users/login" target="_blank" rel="noopener" class="review-detail-action">
+            <a href="https://uk.trustpilot.com/users/connect" target="_blank" rel="noopener" class="review-detail-action">
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13 1a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-3 2a3 3 0 1 1 .583 1.778L5.867 7.115a3 3 0 0 1 0 1.77l4.716 2.337a3 3 0 1 1-.45.893L5.417 9.778a3 3 0 1 1 0-3.556l4.716-2.337A3.002 3.002 0 0 1 10 3Z"/></svg>
                 Share
             </a>
-            <a href="https://uk.trustpilot.com/users/login" target="_blank" rel="noopener" class="review-detail-action flag" aria-label="Flag this review" title="Flag this review">
+            <a href="https://uk.trustpilot.com/users/connect" target="_blank" rel="noopener" class="review-detail-action flag" aria-label="Flag this review" title="Flag this review">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3 .25V0H2v16h1V9.25h11.957l-4.5-4.5 4.5-4.5H3Zm0 1v7h9.543l-3.5-3.5 3.5-3.5H3Z"/></svg>
             </a>
         </div>
@@ -547,15 +595,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${r.unprompted ? '<span class="full-review-badge">Unprompted review</span>' : ''}
                     </div>
                     <div class="full-review-actions">
-                        <a href="https://uk.trustpilot.com/users/login" target="_blank" rel="noopener" class="full-review-action">
+                        <a href="https://uk.trustpilot.com/users/connect" target="_blank" rel="noopener" class="full-review-action">
                             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.94.94A1.5 1.5 0 0 1 10.5 2a20.774 20.774 0 0 1-.384 4H14.5A1.5 1.5 0 0 1 16 7.5v.066l-1.845 6.9-.094.095A1.5 1.5 0 0 1 13 15H9c-.32 0-.685-.078-1.038-.174-.357-.097-.743-.226-1.112-.349l-.008-.003c-.378-.126-.74-.246-1.067-.335C5.44 14.047 5.18 14 5 14v.941l-5 .625V6h5v.788c.913-.4 1.524-1.357 1.926-2.418A10.169 10.169 0 0 0 7.5 1.973 1.5 1.5 0 0 1 7.94.939Z"/></svg>
                             Useful
                         </a>
-                        <a href="https://uk.trustpilot.com/users/login" target="_blank" rel="noopener" class="full-review-action">
+                        <a href="https://uk.trustpilot.com/users/connect" target="_blank" rel="noopener" class="full-review-action">
                             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13 1a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-3 2a3 3 0 1 1 .583 1.778L5.867 7.115a3 3 0 0 1 0 1.77l4.716 2.337a3 3 0 1 1-.45.893L5.417 9.778a3 3 0 1 1 0-3.556l4.716-2.337A3.002 3.002 0 0 1 10 3Z"/></svg>
                             Share
                         </a>
-                        <a href="https://uk.trustpilot.com/users/login" target="_blank" rel="noopener" class="full-review-action flag" aria-label="Flag this review" title="Flag this review">
+                        <a href="https://uk.trustpilot.com/users/connect" target="_blank" rel="noopener" class="full-review-action flag" aria-label="Flag this review" title="Flag this review">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3 .25V0H2v16h1V9.25h11.957l-4.5-4.5 4.5-4.5H3Zm0 1v7h9.543l-3.5-3.5 3.5-3.5H3Z"/></svg>
                         </a>
                     </div>
