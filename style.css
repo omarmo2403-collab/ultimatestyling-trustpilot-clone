@@ -64,9 +64,9 @@ img {
 }
 
 .nav-container {
-    max-width: 1320px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 12px 32px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     gap: 24px;
@@ -154,9 +154,9 @@ img {
 
 /* ============== BREADCRUMB ============== */
 .breadcrumb-container {
-    max-width: 1320px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 10px 32px 20px;
+    padding: 10px 16px 20px;
 }
 
 .breadcrumb {
@@ -213,9 +213,9 @@ img {
 }
 
 .sticky-tabnav-inner {
-    max-width: 1072px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1135,14 +1135,14 @@ img {
 
 /* ============== PEOPLE ALSO LOOKED AT ============== */
 .similar-section {
-    background: #F4F1EA;
+    background: #F9F8F5;
     padding: 40px 0 56px;
 }
 
 .similar-container {
-    max-width: 1320px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0 16px;
 }
 
 .similar-header {
@@ -1980,11 +1980,11 @@ img {
 }
 
 .review-mini-card {
-    flex: 0 0 320px;
+    flex: 0 0 306px;
     background: #fff;
-    border: 1px solid #E5E7EB;
-    border-radius: 12px;
-    padding: 18px;
+    border: 1px solid #DCD6D1;
+    border-radius: 16px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -2311,9 +2311,9 @@ img {
 .all-reviews-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0 16px;
     display: grid;
-    grid-template-columns: 400px minmax(0, 720px);
+    grid-template-columns: 320px minmax(0, 720px);
     gap: 32px;
     align-items: start;
     justify-content: start;
@@ -3142,9 +3142,9 @@ img {
 }
 
 .footer-container {
-    max-width: 1320px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0 16px;
 }
 
 .footer-logo img {
