@@ -88,6 +88,134 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ============== MOBILE SEARCH OVERLAY ==============
+    const mobileSearchToggle = document.querySelector('.mobile-search-toggle');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchOverlayClose = searchOverlay && searchOverlay.querySelector('.search-overlay-close');
+    const searchOverlayInput = searchOverlay && searchOverlay.querySelector('input');
+
+    const openSearchOverlay = () => {
+        if (!searchOverlay) return;
+        searchOverlay.hidden = false;
+        document.body.style.overflow = 'hidden';
+        if (searchOverlayInput) {
+            setTimeout(() => searchOverlayInput.focus(), 50);
+        }
+    };
+    const closeSearchOverlay = () => {
+        if (!searchOverlay) return;
+        searchOverlay.hidden = true;
+        document.body.style.overflow = '';
+    };
+
+    if (mobileSearchToggle) {
+        mobileSearchToggle.addEventListener('click', openSearchOverlay);
+    }
+    if (searchOverlayClose) {
+        searchOverlayClose.addEventListener('click', closeSearchOverlay);
+    }
+    // ESC closes the overlay
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchOverlay && !searchOverlay.hidden) {
+            closeSearchOverlay();
+        }
+    });
+
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    if (mobileMenuToggle) {
+        // Build a slide-in drawer from the right with backdrop
+        let mobileDrawer = document.getElementById('mobile-drawer');
+        let mobileBackdrop = document.getElementById('mobile-drawer-backdrop');
+        if (!mobileDrawer) {
+            mobileBackdrop = document.createElement('div');
+            mobileBackdrop.id = 'mobile-drawer-backdrop';
+            mobileBackdrop.className = 'mobile-drawer-backdrop';
+            mobileBackdrop.hidden = true;
+
+            mobileDrawer = document.createElement('aside');
+            mobileDrawer.id = 'mobile-drawer';
+            mobileDrawer.className = 'mobile-drawer';
+            mobileDrawer.hidden = true;
+            mobileDrawer.setAttribute('aria-label', 'Main menu');
+            mobileDrawer.innerHTML = `
+                <div class="mobile-drawer-top">
+                    <a href="https://uk.trustpilot.com/users/connect" class="mobile-drawer-icon" aria-label="Notifications">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6V11c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" stroke="currentColor" stroke-width="1.6" fill="none"/>
+                        </svg>
+                    </a>
+                    <button type="button" class="mobile-drawer-icon mobile-drawer-search" aria-label="Search">
+                        <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 1.5a5.25 5.25 0 1 0 3.291 9.337l3.586 3.586.707-.707-3.586-3.586A5.25 5.25 0 0 0 6.75 1.5ZM2.5 6.75a4.25 4.25 0 1 1 8.5 0 4.25 4.25 0 0 1-8.5 0Z"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="mobile-drawer-icon mobile-drawer-close" aria-label="Close menu">
+                        <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M7.294 8 2 13.294l.706.706L8 8.706 13.294 14l.706-.706L8.706 8 14 2.706 13.294 2 8 7.294 2.706 2 2 2.706 7.294 8Z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="mobile-drawer-content">
+                    <a href="https://business.trustpilot.com/" class="mobile-drawer-business">For businesses</a>
+                    <hr class="mobile-drawer-divider" />
+                    <a href="https://uk.trustpilot.com/users/connect" class="mobile-drawer-link mobile-drawer-login">
+                        Log in
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M8.146 2.146l-.708.708L11.293 6.5H1.5v1h9.793l-3.855 3.646.708.708 5-5-5-4.708Z"/>
+                        </svg>
+                    </a>
+                    <a href="https://uk.trustpilot.com/categories" class="mobile-drawer-link">Categories</a>
+                    <a href="https://uk.trustpilot.com/blog" class="mobile-drawer-link">Blog</a>
+                </div>
+            `;
+            document.body.appendChild(mobileBackdrop);
+            document.body.appendChild(mobileDrawer);
+        }
+
+        const closeDrawer = () => {
+            mobileDrawer.classList.remove('open');
+            mobileBackdrop.classList.remove('open');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('drawer-open');
+            // Wait for transition before hiding
+            setTimeout(() => {
+                if (!mobileDrawer.classList.contains('open')) {
+                    mobileDrawer.hidden = true;
+                    mobileBackdrop.hidden = true;
+                }
+            }, 250);
+        };
+
+        const openDrawer = () => {
+            mobileDrawer.hidden = false;
+            mobileBackdrop.hidden = false;
+            // Force layout, then animate
+            requestAnimationFrame(() => {
+                mobileDrawer.classList.add('open');
+                mobileBackdrop.classList.add('open');
+            });
+            mobileMenuToggle.setAttribute('aria-expanded', 'true');
+            document.body.classList.add('drawer-open');
+        };
+
+        mobileMenuToggle.addEventListener('click', () => {
+            const isOpen = mobileDrawer.classList.contains('open');
+            if (isOpen) closeDrawer(); else openDrawer();
+        });
+
+        mobileBackdrop.addEventListener('click', closeDrawer);
+        mobileDrawer.querySelector('.mobile-drawer-close').addEventListener('click', closeDrawer);
+        mobileDrawer.querySelector('.mobile-drawer-search').addEventListener('click', () => {
+            closeDrawer();
+            if (mobileSearchToggle) mobileSearchToggle.click();
+        });
+
+        // Close on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) closeDrawer();
+        });
+    }
+
     // ============== TOP MENTIONS FILTER ==============
     const mentionTags = document.querySelectorAll('.mention-tag');
     const selectedMentions = document.querySelector('.selected-mentions');

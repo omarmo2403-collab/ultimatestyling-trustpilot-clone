@@ -806,6 +806,93 @@
         </div>
     </div>
 
+    <!-- ============== MOBILE SEARCH OVERLAY ============== -->
+    <div class="search-overlay" id="searchOverlay" hidden>
+        <div class="search-overlay-header">
+            <form action="https://uk.trustpilot.com/search" method="get" class="search-overlay-form">
+                <svg class="search-overlay-icon" viewBox="0 0 16 16" fill="#3C57BC" xmlns="http://www.w3.org/2000/svg" width="22" height="22" aria-hidden="true">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 1.5a5.25 5.25 0 1 0 3.291 9.337l3.586 3.586.707-.707-3.586-3.586A5.25 5.25 0 0 0 6.75 1.5ZM2.5 6.75a4.25 4.25 0 1 1 8.5 0 4.25 4.25 0 0 1-8.5 0Z"/>
+                </svg>
+                <input type="text" name="query" placeholder="Search for a company or category..." autocomplete="off" autofocus />
+                <button type="button" class="search-overlay-close" aria-label="Close search">
+                    <svg viewBox="0 0 16 16" fill="#3C57BC" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true">
+                        <path d="M7.294 8 2 13.294l.706.706L8 8.706 13.294 14l.706-.706L8.706 8 14 2.706 13.294 2 8 7.294 2.706 2 2 2.706 7.294 8Z"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <div class="search-overlay-body">
+            <section class="search-section">
+                <h3 class="search-section-title">Suggested companies</h3>
+                <ul class="search-suggestions">
+                    <li>
+                        <a href="https://uk.trustpilot.com/review/www.autodoc.co.uk" class="search-company-row" target="_blank" rel="noopener">
+                            <div class="search-company-info">
+                                <span class="search-company-name">AUTODOC - Great Britain</span>
+                                <span class="search-company-meta"><span class="search-company-url">www.autodoc.co.uk</span> <span class="search-meta-dot">•</span> 17k reviews</span>
+                            </div>
+                            <span class="search-rating-pill rating-4">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="#fff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.88 6.225H16l-4.929 3.504-3.047 2.149-4.953 3.504L4.952 9.73 0 6.225h6.119L8 .572l1.881 5.653Z"/></svg>
+                                <span>4.2</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://uk.trustpilot.com/review/wingmirrorparts.com" class="search-company-row" target="_blank" rel="noopener">
+                            <div class="search-company-info">
+                                <span class="search-company-name">Wingmirrorparts</span>
+                                <span class="search-company-meta"><span class="search-company-url">wingmirrorparts.com</span> <span class="search-meta-dot">•</span> 846 reviews</span>
+                            </div>
+                            <span class="search-rating-pill rating-4-5">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="#fff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.88 6.225H16l-4.929 3.504-3.047 2.149-4.953 3.504L4.952 9.73 0 6.225h6.119L8 .572l1.881 5.653Z"/></svg>
+                                <span>4.6</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://uk.trustpilot.com/review/carwingmirrorglass.co.uk" class="search-company-row" target="_blank" rel="noopener">
+                            <div class="search-company-info">
+                                <span class="search-company-name">Car Wing Mirror Glass</span>
+                                <span class="search-company-meta"><span class="search-company-url">carwingmirrorglass.co.uk</span> <span class="search-meta-dot">•</span> 41 reviews</span>
+                            </div>
+                            <span class="search-rating-pill rating-4">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="#fff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.88 6.225H16l-4.929 3.504-3.047 2.149-4.953 3.504L4.952 9.73 0 6.225h6.119L8 .572l1.881 5.653Z"/></svg>
+                                <span>3.8</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="search-section">
+                <h3 class="search-section-title">Suggested searches</h3>
+                <ul class="search-suggestions">
+                    <li><a href="https://uk.trustpilot.com/search?query=clothing+store+near+me" class="search-suggestion-row" target="_blank" rel="noopener">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="#6E7689" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 1.5a5.25 5.25 0 1 0 3.291 9.337l3.586 3.586.707-.707-3.586-3.586A5.25 5.25 0 0 0 6.75 1.5ZM2.5 6.75a4.25 4.25 0 1 1 8.5 0 4.25 4.25 0 0 1-8.5 0Z"/></svg>
+                        Clothing store near me
+                    </a></li>
+                    <li><a href="https://uk.trustpilot.com/search?query=real+estate+agent+united+kingdom" class="search-suggestion-row" target="_blank" rel="noopener">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="#6E7689" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 1.5a5.25 5.25 0 1 0 3.291 9.337l3.586 3.586.707-.707-3.586-3.586A5.25 5.25 0 0 0 6.75 1.5ZM2.5 6.75a4.25 4.25 0 1 1 8.5 0 4.25 4.25 0 0 1-8.5 0Z"/></svg>
+                        Real estate agent in United Kingdom
+                    </a></li>
+                    <li><a href="https://uk.trustpilot.com/search?query=hotel+in+birmingham" class="search-suggestion-row" target="_blank" rel="noopener">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="#6E7689" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 1.5a5.25 5.25 0 1 0 3.291 9.337l3.586 3.586.707-.707-3.586-3.586A5.25 5.25 0 0 0 6.75 1.5ZM2.5 6.75a4.25 4.25 0 1 1 8.5 0 4.25 4.25 0 0 1-8.5 0Z"/></svg>
+                        Hotel in Birmingham
+                    </a></li>
+                    <li><a href="https://uk.trustpilot.com/search?query=best+internet+provider" class="search-suggestion-row" target="_blank" rel="noopener">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="#6E7689" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 1.5a5.25 5.25 0 1 0 3.291 9.337l3.586 3.586.707-.707-3.586-3.586A5.25 5.25 0 0 0 6.75 1.5ZM2.5 6.75a4.25 4.25 0 1 1 8.5 0 4.25 4.25 0 0 1-8.5 0Z"/></svg>
+                        Best internet provider
+                    </a></li>
+                    <li><a href="https://uk.trustpilot.com/search?query=plumber+in+glasgow" class="search-suggestion-row" target="_blank" rel="noopener">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="#6E7689" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 1.5a5.25 5.25 0 1 0 3.291 9.337l3.586 3.586.707-.707-3.586-3.586A5.25 5.25 0 0 0 6.75 1.5ZM2.5 6.75a4.25 4.25 0 1 1 8.5 0 4.25 4.25 0 0 1-8.5 0Z"/></svg>
+                        Plumber in Glasgow
+                    </a></li>
+                </ul>
+            </section>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
