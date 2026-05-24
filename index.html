@@ -583,7 +583,6 @@
                         </div>
                         <div class="selected-mentions" hidden>
                             <div class="selected-mentions-chips"></div>
-                            <button type="button" class="reset-mentions">Reset</button>
                         </div>
                     </div>
 
@@ -734,42 +733,42 @@
 
             <!-- Topic summary view -->
             <div class="topic-modal-view topic-view">
+                <div class="topic-modal-header">
+                    <h2 id="topicModalTitle" class="topic-modal-heading">Topic</h2>
+                </div>
                 <div class="topic-modal-gradient">
-                    <div class="topic-modal-section">
-                        <h2 id="topicModalTitle" class="topic-modal-heading">Topic</h2>
-                        <p class="topic-modal-summary"></p>
-                        <div class="topic-modal-footnote">
-                            <span class="ai-icon">
-                                <svg width="14" height="14" viewBox="0 0 16 16" fill="#A855F7" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2 1v2H0v1h2v2h1V4h2V3H3V1H2Zm0 9v2H0v1h2v2h1v-2h2v-1H3v-2H2Zm2.875-1.438L8 9.75l1.188 3.125.562 1.375.563-1.375L11.5 9.75l3.125-1.188L16 8l-1.375-.563L11.5 6.25l-1.188-3.125L9.75 1.75l-.563 1.375L8 6.25 4.875 7.438 3.5 8l1.375.563Z"/>
-                                </svg>
-                            </span>
-                            <span>Created with AI, based on recent reviews</span>
-                        </div>
+                    <p class="topic-modal-summary"></p>
+                    <div class="topic-modal-footnote">
+                        <span class="ai-icon">
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="#A855F7" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 1v2H0v1h2v2h1V4h2V3H3V1H2Zm0 9v2H0v1h2v2h1v-2h2v-1H3v-2H2Zm2.875-1.438L8 9.75l1.188 3.125.562 1.375.563-1.375L11.5 9.75l3.125-1.188L16 8l-1.375-.563L11.5 6.25l-1.188-3.125L9.75 1.75l-.563 1.375L8 6.25 4.875 7.438 3.5 8l1.375.563Z"/>
+                            </svg>
+                        </span>
+                        <span>Created with AI, based on recent reviews</span>
                     </div>
-                    <div class="topic-modal-section">
-                        <div class="topic-modal-subhead">
-                            <h3>Reviews shaping this summary</h3>
-                            <span class="info-icon">
-                                <svg width="14" height="14" viewBox="0 0 16 16" fill="#6E7689" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z"/>
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.5 7h-.75V6H8.5v5.502h.75v1h-2.5v-1h.75V7ZM6.75 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"/>
-                                </svg>
-                            </span>
-                        </div>
-                        <div class="reviews-carousel-wrap">
-                            <button class="reviews-nav reviews-nav-prev" aria-label="Previous review" hidden>
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="#1B1B2F" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="m3.194 8.013.343-.375 6.344-6.344.719.718-6 6 5.656 5.626.344.375-.719.687-6.687-6.687Z"/>
-                                </svg>
-                            </button>
-                            <div class="reviews-carousel"></div>
-                            <button class="reviews-nav reviews-nav-next" aria-label="Next review">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="#1B1B2F" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="m12.806 7.987-.343.375-6.344 6.344-.719-.718 6-6-5.656-5.626-.344-.375.719-.687 6.687 6.687Z"/>
-                                </svg>
-                            </button>
-                        </div>
+                </div>
+                <div class="topic-modal-reviews">
+                    <div class="topic-modal-subhead">
+                        <h3>Reviews shaping this summary</h3>
+                        <span class="info-icon">
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="#6E7689" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.5 7h-.75V6H8.5v5.502h.75v1h-2.5v-1h.75V7ZM6.75 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="reviews-carousel-wrap">
+                        <button class="reviews-nav reviews-nav-prev" aria-label="Previous review" hidden>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="#1B1B2F" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m3.194 8.013.343-.375 6.344-6.344.719.718-6 6 5.656 5.626.344.375-.719.687-6.687-6.687Z"/>
+                            </svg>
+                        </button>
+                        <div class="reviews-carousel"></div>
+                        <button class="reviews-nav reviews-nav-next" aria-label="Next review">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="#1B1B2F" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m12.806 7.987-.343.375-6.344 6.344-.719-.718 6-6-5.656-5.626-.344-.375.719-.687 6.687 6.687Z"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -92,17 +92,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const mentionTags = document.querySelectorAll('.mention-tag');
     const selectedMentions = document.querySelector('.selected-mentions');
     const selectedChipsContainer = document.querySelector('.selected-mentions-chips');
-    const resetMentionsBtn = document.querySelector('.reset-mentions');
 
     if (mentionTags.length && selectedMentions && selectedChipsContainer) {
         const selectedTopics = new Set();
 
         const renderChips = () => {
-            selectedChipsContainer.innerHTML = Array.from(selectedTopics).map(topic => {
+            const chips = Array.from(selectedTopics).map(topic => {
                 const tag = document.querySelector(`.mention-tag[data-topic="${topic}"]`);
                 const label = tag ? tag.textContent.trim() : topic;
                 return `<span class="selected-chip" data-topic="${topic}">${label}<button type="button" class="selected-chip-remove" data-topic="${topic}" aria-label="Remove ${label}"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.294 8 2 13.294l.706.706L8 8.706 13.294 14l.706-.706L8.706 8 14 2.706 13.294 2 8 7.294 2.706 2 2 2.706 7.294 8Z"/></svg></button></span>`;
-            }).join('');
+            });
+            const resetBtn = selectedTopics.size > 0
+                ? `<button type="button" class="reset-mentions">Reset</button>`
+                : '';
+            selectedChipsContainer.innerHTML = chips.join('') + resetBtn;
             selectedMentions.hidden = selectedTopics.size === 0;
         };
 
@@ -131,17 +134,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         selectedChipsContainer.addEventListener('click', (e) => {
             const removeBtn = e.target.closest('.selected-chip-remove');
-            if (removeBtn) toggleTopic(removeBtn.dataset.topic);
-        });
-
-        if (resetMentionsBtn) {
-            resetMentionsBtn.addEventListener('click', () => {
+            if (removeBtn) {
+                toggleTopic(removeBtn.dataset.topic);
+                return;
+            }
+            const resetBtn = e.target.closest('.reset-mentions');
+            if (resetBtn) {
                 selectedTopics.clear();
                 mentionTags.forEach(t => t.classList.remove('selected'));
                 renderChips();
                 dispatchChange();
-            });
-        }
+            }
+        });
     }
 
     // Topics horizontal scroll
@@ -275,10 +279,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return svgs[rating] || svgs[5];
     };
 
-    const renderReviewCard = (r, index) => `
+    const renderReviewCard = (r, index) => {
+        const photoIdx = r.photoIndex || (index % 2 === 0 ? ((index / 2) % 70) + 1 : null);
+        const avatarHTML = photoIdx
+            ? `<div class="review-avatar with-photo"><img src="https://i.pravatar.cc/100?img=${photoIdx}" alt="" loading="lazy" /></div>`
+            : `<div class="review-avatar ${r.color}">${r.initials}</div>`;
+        return `
         <article class="review-mini-card" data-review-index="${index}">
             <div class="review-consumer">
-                <div class="review-avatar ${r.color}">${r.initials}</div>
+                ${avatarHTML}
                 <div>
                     <div class="review-consumer-name">${r.name}</div>
                     <div class="review-consumer-date">${r.date}</div>
@@ -309,11 +318,17 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </article>
     `;
+    };
 
-    const renderReviewDetail = (r) => `
+    const renderReviewDetail = (r) => {
+        const photoIdx = r.photoIndex;
+        const avatarHTML = photoIdx
+            ? `<div class="review-detail-avatar with-photo"><img src="https://i.pravatar.cc/120?img=${photoIdx}" alt="" loading="lazy" /></div>`
+            : `<div class="review-detail-avatar ${r.color}">${r.initials}</div>`;
+        return `
         <div class="review-detail-consumer-header">
             <div class="review-detail-consumer">
-                <div class="review-detail-avatar ${r.color}">${r.initials}</div>
+                ${avatarHTML}
                 <div>
                     <div class="review-detail-name">${r.name}</div>
                     <div class="review-detail-meta">
@@ -350,6 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </a>
         </div>
     `;
+    };
 
     const modal = document.getElementById('topicModal');
     const modalBackdrop = modal && modal.querySelector('.topic-modal-backdrop');
@@ -581,7 +597,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <article class="full-review-card">
                     <div class="full-review-header">
                         <div class="full-review-consumer">
-                            <div class="full-review-avatar ${r.color || 'blue'}">${r.initials || ''}</div>
+                            ${r.photoIndex
+                                ? `<div class="full-review-avatar with-photo"><img src="https://i.pravatar.cc/120?img=${r.photoIndex}" alt="" loading="lazy" /></div>`
+                                : `<div class="full-review-avatar ${r.color || 'blue'}">${r.initials || ''}</div>`
+                            }
                             <div class="full-review-consumer-info">
                                 <span class="full-review-name">${r.name}</span>
                                 <span class="full-review-meta">
@@ -672,7 +691,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const expDate = new Date(d); expDate.setDate(expDate.getDate() - 2);
             const expBadge = `${expDate.getDate()} ${monthNamesFull[expDate.getMonth()]} ${expDate.getFullYear()}`;
             const topics = detectTopics((src.title || '') + ' ' + (src.text || ''));
-            expanded.push({ ...src, date: cardDate, experienceDate: expBadge, topics });
+            // Deterministically give ~50% of reviewers a real-face photo
+            // (pravatar offers indices 1–70; cycle through them so it's varied)
+            const usePhoto = i % 2 === 0;
+            const photoIndex = usePhoto ? ((i / 2) % 70) + 1 : null;
+            expanded.push({ ...src, date: cardDate, experienceDate: expBadge, topics, photoIndex });
         }
 
         // ============== FUNCTIONAL PAGINATION ==============
@@ -695,12 +718,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const applySort = (arr) => {
             if (currentSort === 'detailed') {
-                // Sort by text length descending (longer = more detailed),
-                // tie-break by recency (already chronological)
-                return arr.slice().sort((a, b) => (b.text || '').length - (a.text || '').length);
+                // Shuffle first so equal-length texts come back in fresh order,
+                // then sort by text length descending (longer = more detailed)
+                return shuffle(arr).sort((a, b) => (b.text || '').length - (a.text || '').length);
             }
-            // 'recent' — keep natural chronological order
-            return arr;
+            // 'recent' — shuffle so each click produces a fresh random order
+            return shuffle(arr);
         };
 
         const applyFilter = () => {
