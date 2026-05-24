@@ -33,20 +33,38 @@
                 </a>
                 <a href="https://uk.trustpilot.com/users/connect" class="nav-link login-link">Log in</a>
                 <a href="https://business.trustpilot.com/" class="btn-businesses">For businesses</a>
+                <!-- Mobile-only icons -->
+                <button type="button" class="icon-btn mobile-only mobile-search-toggle" aria-label="Search">
+                    <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 1.5a5.25 5.25 0 1 0 3.291 9.337l3.586 3.586.707-.707-3.586-3.586A5.25 5.25 0 0 0 6.75 1.5ZM2.5 6.75a4.25 4.25 0 1 1 8.5 0 4.25 4.25 0 0 1-8.5 0Z"/>
+                    </svg>
+                </button>
+                <button type="button" class="icon-btn mobile-only mobile-menu-toggle" aria-label="Menu">
+                    <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M1 3h14v1H1V3Zm0 4.5h14v1H1v-1ZM1 12h14v1H1v-1Z"/>
+                    </svg>
+                </button>
             </nav>
         </div>
 
         <!-- ============== BREADCRUMB ============== -->
         <div class="breadcrumb-container">
             <nav class="breadcrumb" aria-label="Breadcrumb">
-                <a href="https://uk.trustpilot.com/categories/vehicles_transportation">Vehicles &amp; Transportation</a>
-                <span class="crumb-sep">
+                <!-- Mobile collapsed prefix -->
+                <span class="crumb-collapsed mobile-only" aria-label="More categories">...</span>
+                <span class="crumb-sep mobile-only">
                     <svg viewBox="0 0 16 16" fill="#A4A4B8" xmlns="http://www.w3.org/2000/svg" width="10" height="10" aria-hidden="true">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M10.51 7.776 3.953 2.158l.65-.759 7.444 6.377-7.443 6.382-.651-.759 6.557-5.623Z"/>
                     </svg>
                 </span>
-                <a href="https://uk.trustpilot.com/categories/auto_parts_wheels">Auto Parts &amp; Wheels</a>
-                <span class="crumb-sep">
+                <a href="https://uk.trustpilot.com/categories/vehicles_transportation" class="crumb-desktop">Vehicles &amp; Transportation</a>
+                <span class="crumb-sep crumb-desktop">
+                    <svg viewBox="0 0 16 16" fill="#A4A4B8" xmlns="http://www.w3.org/2000/svg" width="10" height="10" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.51 7.776 3.953 2.158l.65-.759 7.444 6.377-7.443 6.382-.651-.759 6.557-5.623Z"/>
+                    </svg>
+                </span>
+                <a href="https://uk.trustpilot.com/categories/auto_parts_wheels" class="crumb-desktop">Auto Parts &amp; Wheels</a>
+                <span class="crumb-sep crumb-desktop">
                     <svg viewBox="0 0 16 16" fill="#A4A4B8" xmlns="http://www.w3.org/2000/svg" width="10" height="10" aria-hidden="true">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M10.51 7.776 3.953 2.158l.65-.759 7.444 6.377-7.443 6.382-.651-.759 6.557-5.623Z"/>
                     </svg>
@@ -99,6 +117,14 @@
                         <div class="company-logo">
                             <img src="assets/logo-omq.webp" alt="OMQ Auto Parts Hub logo" />
                         </div>
+                        <a href="https://omq-wingmirrorparts.co.uk" target="_blank" rel="nofollow noopener" class="btn btn-outline mobile-only mobile-visit-btn">
+                            Visit website
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="#3C57BC" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                <polyline points="15 3 21 3 21 9" stroke="#3C57BC" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                <line x1="10" y1="14" x2="21" y2="3" stroke="#3C57BC" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </a>
                         <div class="company-info">
                             <div class="company-badges">
                                 <span class="badge claimed">

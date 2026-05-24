@@ -1308,35 +1308,47 @@ img {
     }
 }
 
+/* ============== MOBILE-ONLY HELPERS ============== */
+.mobile-only { display: none !important; }
+
 /* ============== MOBILE (<= 768px) ============== */
 @media (max-width: 768px) {
+    .mobile-only { display: inline-flex !important; }
+    .mobile-only.btn { display: inline-flex !important; }
+
     /* Defensive: no element should ever cause horizontal scroll */
     body, main, header, footer, section, article, aside, div, form, nav {
         max-width: 100%;
     }
 
-    /* ---- Top nav: logo on left, icons on right ---- */
+    /* ---- Top nav: logo on left, icons on right (no inline search bar) ---- */
     .site-header {
         width: 100%;
         overflow-x: hidden;
     }
     .nav-container {
         padding: 14px 16px;
-        gap: 12px;
-        flex-wrap: wrap;
+        gap: 8px;
+        flex-wrap: nowrap;
         width: 100%;
+        align-items: center;
     }
     .logo img {
         height: 24px;
     }
     .nav-links {
-        order: 2;
         margin-left: auto;
-        gap: 10px;
+        gap: 6px;
+        flex-wrap: nowrap;
     }
-    /* Hide the text links and the "For businesses" button on mobile */
-    .nav-link {
-        display: none;
+    /* Hide everything in the top nav except icons */
+    .nav-link,
+    .btn-businesses,
+    .search-wrap {
+        display: none !important;
+    }
+    .icon-btn {
+        padding: 6px;
     }
     .btn-businesses {
         display: none;
@@ -1356,7 +1368,7 @@ img {
         padding: 0 16px;
     }
 
-    /* ---- Breadcrumb: compact, allow horizontal scroll ---- */
+    /* ---- Breadcrumb: collapsed with "..." prefix ---- */
     .breadcrumb-container {
         padding: 4px 16px 16px;
     }
@@ -1364,16 +1376,23 @@ img {
         font-size: 13px;
         gap: 6px;
         flex-wrap: nowrap;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-    .breadcrumb::-webkit-scrollbar {
-        display: none;
+        overflow: hidden;
     }
     .breadcrumb a,
     .breadcrumb .crumb-current {
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /* Hide first-2 crumbs on mobile, show only "..." > Auto parts shop > Company */
+    .crumb-desktop {
+        display: none !important;
+    }
+    .crumb-collapsed {
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: 2px;
+        padding-bottom: 2px;
     }
 
     /* ---- Company section ---- */
@@ -1394,26 +1413,57 @@ img {
         min-width: 0;
     }
 
+    /* Two-row grid: [logo | visit-website] / [info spans full width] */
     .company-header {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+            "logo visit"
+            "info info";
         gap: 16px;
-        align-items: stretch;
+        align-items: center;
         width: 100%;
     }
     .company-logo {
-        width: 100%;
+        grid-area: logo;
+        width: auto;
         height: auto;
-        max-width: 200px;
-        min-height: 80px;
+        max-width: 140px;
+        min-height: 56px;
+        justify-self: start;
     }
     .company-logo img {
-        max-height: 80px;
+        max-height: 64px;
+        max-width: 140px;
+        object-fit: contain;
+    }
+
+    .mobile-visit-btn {
+        grid-area: visit;
+        justify-self: end;
+        align-self: center;
+        padding: 8px 16px !important;
+        font-size: 13px !important;
+        width: auto !important;
+        max-width: none !important;
+        white-space: nowrap;
+        height: auto;
+    }
+    .mobile-visit-btn svg {
+        width: 12px;
+        height: 12px;
     }
 
     .company-info {
+        grid-area: info;
         width: 100%;
         max-width: 100%;
         min-width: 0;
+    }
+
+    /* Hide the original Visit website button from .company-actions on mobile */
+    .company-actions a.btn-outline {
+        display: none !important;
     }
 
     .company-title {
