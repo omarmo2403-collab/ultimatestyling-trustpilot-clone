@@ -24,6 +24,8 @@
 
 html, body {
     height: 100%;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -1308,11 +1310,21 @@ img {
 
 /* ============== MOBILE (<= 768px) ============== */
 @media (max-width: 768px) {
+    /* Defensive: no element should ever cause horizontal scroll */
+    body, main, header, footer, section, article, aside, div, form, nav {
+        max-width: 100%;
+    }
+
     /* ---- Top nav: logo on left, icons on right ---- */
+    .site-header {
+        width: 100%;
+        overflow-x: hidden;
+    }
     .nav-container {
         padding: 14px 16px;
         gap: 12px;
         flex-wrap: wrap;
+        width: 100%;
     }
     .logo img {
         height: 24px;
@@ -1371,12 +1383,22 @@ img {
     .company-container {
         padding: 16px;
         gap: 24px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .company-left,
+    .company-right {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
     }
 
     .company-header {
         flex-direction: column;
         gap: 16px;
         align-items: stretch;
+        width: 100%;
     }
     .company-logo {
         width: 100%;
@@ -1388,9 +1410,16 @@ img {
         max-height: 80px;
     }
 
+    .company-info {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
     .company-title {
         font-size: 26px;
         line-height: 1.2;
+        word-break: break-word;
     }
 
     .company-meta {
@@ -1406,15 +1435,20 @@ img {
         height: 20px;
     }
 
-    /* Make action buttons full width */
+    /* Make action buttons full width — never overflow */
     .company-actions {
         flex-direction: column;
         gap: 10px;
-    }
-    .company-actions .btn {
         width: 100%;
+        max-width: 100%;
+    }
+    .company-actions .btn,
+    .company-actions a.btn {
+        width: 100%;
+        max-width: 100%;
         justify-content: center;
         padding: 12px 20px;
+        box-sizing: border-box;
     }
 
     /* ---- Section divider & integrity banner ---- */
