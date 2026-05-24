@@ -325,12 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const REVIEWS = [
         {
-            name: 'amarjit manik', initials: 'AM', color: 'green', country: 'GB', reviewCount: 7,
-            date: 'Apr 3, 2026', experienceDate: '3 March 2026', stars: 5, unprompted: true,
-            title: '5 star service as it should be.',
-            text: '5 star service as it should be.\nQuick delivery.\nOrdered wrong rear lights, when contacting Pete from OMQ was helpful advising our car had the face lift and the correct lights to order, return was simple and correct lights arrived next day.\nSimple plug and play lights took less then 20 mins to change both.'
-        },
-        {
             name: 'Les', initials: 'LE', color: 'yellow', country: 'GB', reviewCount: 11,
             date: 'Jan 30, 2026', experienceDate: '29 January 2026', stars: 5, unprompted: true,
             title: 'Excellent service from OMQ Auto Parts Hub',
@@ -806,6 +800,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Generate reviews by cycling through the source data and varying details
         const TOTAL_REVIEWS = 5245;
         const PAGE_SIZE = 20;
+
+        // Star distribution must match the rating bars shown in the UI:
+        // 5★ 89% | 4★ 5% | 3★ 1% | 2★ <1% | 1★ 4%
+        const assignStars = (index) => {
+            const pct = (index / TOTAL_REVIEWS) * 100;
+            if (pct < 89) return 5;
+            if (pct < 94) return 4;
+            if (pct < 95) return 3;
+            if (pct < 96) return 2;
+            return 1;
+        };
+
         const expanded = [];
         const baseDate = new Date(2026, 4, 18); // May 18, 2026
         for (let i = 0; i < TOTAL_REVIEWS; i++) {
@@ -823,12 +829,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // (pravatar offers indices 1–70; cycle through them so it's varied)
             const usePhoto = i % 2 === 0;
             const photoIndex = usePhoto ? ((i / 2) % 70) + 1 : null;
-            expanded.push({ ...src, date: cardDate, experienceDate: expBadge, topics, photoIndex });
+            // Override src.stars with a distributed value so the rating-filter
+            // checkboxes produce meaningful results for every star bucket
+            const stars = assignStars(i);
+            expanded.push({ ...src, stars, date: cardDate, experienceDate: expBadge, topics, photoIndex });
         }
 
         // ============== FUNCTIONAL PAGINATION ==============
         const PAGE_SIZE_FALLBACK = PAGE_SIZE;
         let activeTopics = [];
+        let activeStars = [];
         let currentSort = 'recent';
         let filteredReviews = expanded;
         let totalPages = Math.ceil(filteredReviews.length / PAGE_SIZE);
@@ -855,20 +865,46 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const applyFilter = () => {
-            let base;
-            if (!activeTopics.length) {
-                base = expanded;
-            } else {
-                const matching = expanded.filter(r =>
+            let base = expanded;
+
+            // Topic filter (from "Top mentions" pills)
+            if (activeTopics.length) {
+                base = base.filter(r =>
                     r.topics && r.topics.some(t => activeTopics.includes(t))
                 );
-                base = shuffle(matching);
             }
+
+            // Star-rating filter (from sidebar checkboxes)
+            if (activeStars.length) {
+                base = base.filter(r => activeStars.includes(r.stars));
+            }
+
+            // Shuffle whenever any filter is active so order feels fresh
+            if (activeTopics.length || activeStars.length) {
+                base = shuffle(base);
+            }
+
             filteredReviews = applySort(base);
             totalPages = Math.max(1, Math.ceil(filteredReviews.length / PAGE_SIZE));
             currentPage = 1;
             renderPage(1, false);
         };
+
+        // ===== Star-rating filter (sidebar checkboxes) =====
+        document.querySelectorAll('.rating-filter-row input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                const row = cb.closest('.rating-filter-row');
+                if (!row) return;
+                const star = parseInt(row.dataset.star, 10);
+                if (Number.isNaN(star)) return;
+                if (cb.checked) {
+                    if (!activeStars.includes(star)) activeStars.push(star);
+                } else {
+                    activeStars = activeStars.filter(s => s !== star);
+                }
+                applyFilter();
+            });
+        });
 
         const renderPage = (pageNum, shouldScroll = true) => {
             const start = (pageNum - 1) * PAGE_SIZE;
