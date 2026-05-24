@@ -536,12 +536,34 @@
                             <input type="search" placeholder="Search by keyword..." />
                         </div>
                         <div class="reviews-filter-actions">
-                            <a href="https://uk.trustpilot.com/users/connect" target="_blank" rel="noopener" class="reviews-filter-btn">
-                                Most recent
-                                <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="14" height="14">
-                                    <path d="m8.019 12.806-.375-.343-6-6-.344-.375.719-.688 6 6 5.625-5.656.375-.344.687.688-.343.375-6.344 6.343Z"/>
-                                </svg>
-                            </a>
+                            <div class="sort-dropdown" data-open="false">
+                                <button type="button" class="reviews-filter-btn sort-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
+                                    <span class="sort-current-label">Most recent</span>
+                                    <svg class="sort-dropdown-chevron" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="14" height="14">
+                                        <path d="m8.019 12.806-.375-.343-6-6-.344-.375.719-.688 6 6 5.625-5.656.375-.344.687.688-.343.375-6.344 6.343Z"/>
+                                    </svg>
+                                </button>
+                                <div class="sort-dropdown-panel" role="listbox" hidden>
+                                    <label class="sort-option" data-sort="recent">
+                                        <input type="radio" name="review-sort" value="recent" checked />
+                                        <div class="sort-option-body">
+                                            <div class="sort-option-title-row">
+                                                <span class="sort-option-title">Most recent</span>
+                                                <span class="sort-option-badge">DEFAULT</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="sort-option" data-sort="detailed">
+                                        <input type="radio" name="review-sort" value="detailed" />
+                                        <div class="sort-option-body">
+                                            <div class="sort-option-title-row">
+                                                <span class="sort-option-title">Detailed reviews</span>
+                                            </div>
+                                            <p class="sort-option-desc"><a href="#" class="sort-show-reviews">Show reviews</a> that are more detailed, recent, easier to read, and reflect the TrustScore.</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

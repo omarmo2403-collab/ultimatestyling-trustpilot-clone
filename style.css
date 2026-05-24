@@ -2161,6 +2161,110 @@ img {
     background: #F4F4F6;
 }
 
+/* ===== Sort dropdown ===== */
+.sort-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.sort-dropdown-toggle {
+    background: #E7F3FF;
+    color: #1B1B2F;
+    border-color: #BCDAFF;
+}
+
+.sort-dropdown[data-open="true"] .sort-dropdown-toggle {
+    background: #BCDAFF;
+}
+
+.sort-dropdown[data-open="true"] .sort-dropdown-chevron {
+    transform: rotate(180deg);
+}
+
+.sort-dropdown-chevron {
+    transition: transform 0.18s ease;
+}
+
+.sort-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 60;
+    width: 360px;
+    background: #fff;
+    border: 1px solid #DCD6D1;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 12px;
+}
+
+.sort-dropdown-panel[hidden] {
+    display: none;
+}
+
+.sort-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s ease;
+}
+
+.sort-option:hover {
+    background: #F9F8F5;
+}
+
+.sort-option input[type="radio"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    accent-color: #3C57BC;
+    flex-shrink: 0;
+    margin-top: 1px;
+    cursor: pointer;
+}
+
+.sort-option-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.sort-option-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sort-option-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1B1B2F;
+}
+
+.sort-option-badge {
+    background: #F1F2F4;
+    color: #6E7689;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.sort-option-desc {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #1B1B2F;
+}
+
+.sort-show-reviews {
+    color: #3C57BC;
+    text-decoration: underline;
+}
+
 .top-mentions {
     margin-bottom: 20px;
 }
@@ -2275,6 +2379,16 @@ img {
 
 .reset-mentions:hover {
     text-decoration: none;
+}
+
+.no-reviews-match {
+    padding: 40px 20px;
+    text-align: center;
+    color: #6E7689;
+    font-size: 15px;
+    border: 1px dashed #DCD6D1;
+    border-radius: 12px;
+    background: #F9F8F5;
 }
 
 .reviews-divider {

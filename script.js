@@ -106,6 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedMentions.hidden = selectedTopics.size === 0;
         };
 
+        const dispatchChange = () => {
+            window.dispatchEvent(new CustomEvent('topicfilterchange', {
+                detail: { topics: Array.from(selectedTopics) }
+            }));
+        };
+
         const toggleTopic = (topic) => {
             const tag = document.querySelector(`.mention-tag[data-topic="${topic}"]`);
             if (selectedTopics.has(topic)) {
@@ -116,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (tag) tag.classList.add('selected');
             }
             renderChips();
+            dispatchChange();
         };
 
         mentionTags.forEach(tag => {
@@ -132,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedTopics.clear();
                 mentionTags.forEach(t => t.classList.remove('selected'));
                 renderChips();
+                dispatchChange();
             });
         }
     }
@@ -625,6 +633,29 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         };
 
+        // Topic detection by keyword matching
+        const TOPIC_KEYWORDS = {
+            order: ['order', 'ordered', 'ordering', 'purchased'],
+            delivery_service: ['delivery', 'delivered', 'courier', 'shipping', 'evri', 'royal mail', 'next day', 'arrived', 'dispatch', 'despatched', 'postage', 'parcel'],
+            service: ['service', 'top notch', 'top marks'],
+            customer_service: ['customer service', 'helpful', 'pete'],
+            price: ['price', 'cheap', '£', 'cost', 'save', 'saved', 'fortune', 'competitive', 'value'],
+            customer_communications: ['email', 'communication', 'communicated', 'contact', 'response', 'replied', 'update'],
+            product: ['part', 'mirror', 'wiper', 'light', 'quality', 'item', 'cover', 'glass', 'fit', 'fitted', 'replacement'],
+            refund: ['refund', 'refunded', 'money back'],
+            website: ['website', 'site', 'online', 'reg-number', 'reg number'],
+            mistake: ['wrong', 'incorrect', 'mistake', 'faulty', 'awful', 'avoid', 'failing', 'lost']
+        };
+
+        const detectTopics = (text) => {
+            const lower = (text || '').toLowerCase();
+            const topics = [];
+            for (const [topic, keywords] of Object.entries(TOPIC_KEYWORDS)) {
+                if (keywords.some(kw => lower.includes(kw))) topics.push(topic);
+            }
+            return topics;
+        };
+
         // Generate reviews by cycling through the source data and varying details
         const TOTAL_REVIEWS = 5245;
         const PAGE_SIZE = 20;
@@ -640,30 +671,148 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardDate = `${monthNames[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
             const expDate = new Date(d); expDate.setDate(expDate.getDate() - 2);
             const expBadge = `${expDate.getDate()} ${monthNamesFull[expDate.getMonth()]} ${expDate.getFullYear()}`;
-            expanded.push({ ...src, date: cardDate, experienceDate: expBadge });
+            const topics = detectTopics((src.title || '') + ' ' + (src.text || ''));
+            expanded.push({ ...src, date: cardDate, experienceDate: expBadge, topics });
         }
 
         // ============== FUNCTIONAL PAGINATION ==============
-        const totalPages = Math.ceil(expanded.length / PAGE_SIZE);
+        const PAGE_SIZE_FALLBACK = PAGE_SIZE;
+        let activeTopics = [];
+        let currentSort = 'recent';
+        let filteredReviews = expanded;
+        let totalPages = Math.ceil(filteredReviews.length / PAGE_SIZE);
         let currentPage = 1;
 
-        const renderPage = (pageNum) => {
+        // Fisher–Yates shuffle (returns a new array)
+        const shuffle = (arr) => {
+            const out = arr.slice();
+            for (let i = out.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [out[i], out[j]] = [out[j], out[i]];
+            }
+            return out;
+        };
+
+        const applySort = (arr) => {
+            if (currentSort === 'detailed') {
+                // Sort by text length descending (longer = more detailed),
+                // tie-break by recency (already chronological)
+                return arr.slice().sort((a, b) => (b.text || '').length - (a.text || '').length);
+            }
+            // 'recent' — keep natural chronological order
+            return arr;
+        };
+
+        const applyFilter = () => {
+            let base;
+            if (!activeTopics.length) {
+                base = expanded;
+            } else {
+                const matching = expanded.filter(r =>
+                    r.topics && r.topics.some(t => activeTopics.includes(t))
+                );
+                base = shuffle(matching);
+            }
+            filteredReviews = applySort(base);
+            totalPages = Math.max(1, Math.ceil(filteredReviews.length / PAGE_SIZE));
+            currentPage = 1;
+            renderPage(1, false);
+        };
+
+        const renderPage = (pageNum, shouldScroll = true) => {
             const start = (pageNum - 1) * PAGE_SIZE;
-            const slice = expanded.slice(start, start + PAGE_SIZE);
-            allReviewsList.innerHTML = slice.map(renderFullReviewCard).join('');
+            const slice = filteredReviews.slice(start, start + PAGE_SIZE);
+            if (slice.length === 0) {
+                allReviewsList.innerHTML = `<div class="no-reviews-match">No reviews match the selected filters.</div>`;
+            } else {
+                allReviewsList.innerHTML = slice.map(renderFullReviewCard).join('');
+            }
             currentPage = pageNum;
             updatePagination();
-            // Scroll the reviews list back into view
-            const allReviewsSection = document.querySelector('.all-reviews-section');
-            if (allReviewsSection) {
-                allReviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (shouldScroll) {
+                const allReviewsSection = document.querySelector('.all-reviews-section');
+                if (allReviewsSection) {
+                    allReviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }
         };
+
+        // Listen for top-mentions filter changes
+        window.addEventListener('topicfilterchange', (e) => {
+            activeTopics = (e.detail && e.detail.topics) || [];
+            applyFilter();
+        });
+
+        // ===== Sort dropdown =====
+        const sortDropdown = document.querySelector('.sort-dropdown');
+        const sortToggle = document.querySelector('.sort-dropdown-toggle');
+        const sortPanel = document.querySelector('.sort-dropdown-panel');
+        const sortLabel = document.querySelector('.sort-current-label');
+        const sortRadios = document.querySelectorAll('input[name="review-sort"]');
+
+        if (sortDropdown && sortToggle && sortPanel) {
+            const closeSort = () => {
+                sortDropdown.dataset.open = 'false';
+                sortToggle.setAttribute('aria-expanded', 'false');
+                sortPanel.hidden = true;
+            };
+            const openSort = () => {
+                sortDropdown.dataset.open = 'true';
+                sortToggle.setAttribute('aria-expanded', 'true');
+                sortPanel.hidden = false;
+            };
+
+            sortToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (sortPanel.hidden) openSort();
+                else closeSort();
+            });
+
+            // Close on outside click
+            document.addEventListener('click', (e) => {
+                if (!sortDropdown.contains(e.target)) closeSort();
+            });
+
+            // Close on ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !sortPanel.hidden) closeSort();
+            });
+
+            // Radio change → update sort + re-render
+            sortRadios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    currentSort = radio.value;
+                    const labels = { recent: 'Most recent', detailed: 'Detailed reviews' };
+                    if (sortLabel) sortLabel.textContent = labels[currentSort] || 'Most recent';
+                    applyFilter();
+                    closeSort();
+                });
+            });
+
+            // "Show reviews" link inside the description acts like selecting "detailed"
+            const showReviewsLink = document.querySelector('.sort-show-reviews');
+            if (showReviewsLink) {
+                showReviewsLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const detailedRadio = document.querySelector('input[name="review-sort"][value="detailed"]');
+                    if (detailedRadio) {
+                        detailedRadio.checked = true;
+                        detailedRadio.dispatchEvent(new Event('change'));
+                    }
+                });
+            }
+        }
 
         const paginationEl = document.querySelector('.reviews-pagination');
 
         const updatePagination = () => {
             if (!paginationEl) return;
+
+            // Hide pagination if filter returns no results
+            if (filteredReviews.length === 0) {
+                paginationEl.innerHTML = '';
+                return;
+            }
 
             const prevDisabled = currentPage === 1;
             const nextDisabled = currentPage === totalPages;
