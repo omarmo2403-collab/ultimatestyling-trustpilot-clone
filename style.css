@@ -1022,7 +1022,11 @@ img {
     top: calc(100% + 12px);
     left: 50%;
     transform: translateX(-50%);
+    display: block;
     width: 320px;
+    max-width: calc(100vw - 32px);
+    box-sizing: border-box;
+    white-space: normal;
     background: #fff;
     border: 1px solid #E5E7EB;
     border-radius: 12px;

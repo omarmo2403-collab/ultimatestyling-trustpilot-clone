@@ -380,9 +380,9 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             name: 'Daniel Wright', initials: 'DW', color: 'orange', country: 'GB', reviewCount: 3,
-            date: 'Sep 28, 2025', experienceDate: '25 September 2025', stars: 4, unprompted: true,
-            title: 'Good parts, slight delay',
-            text: 'Good quality parts from OMQ. Delivery took a day longer than estimated but the customer service team were quick to update me. Part fitted perfectly. Would order from OMQ Auto Parts again.'
+            date: 'Sep 28, 2025', experienceDate: '25 September 2025', stars: 5, unprompted: true,
+            title: 'Spot on service',
+            text: 'Spot on service from OMQ Auto Parts. Easy to find the right part using my reg, quick dispatch and packaged really well. Part fitted perfectly first time. Would order from OMQ again without hesitation.'
         },
         {
             name: 'Sarah Mitchell', initials: 'SM', color: 'yellow', country: 'GB', reviewCount: 18,
@@ -655,7 +655,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============== PEOPLE ALSO LOOKED AT ==============
     const SIMILAR_BUSINESSES = [
         { name: 'AUTODOC - Great Britain', url: 'www.autodoc.co.uk', rating: 4.2, count: '17k', stars: 4, logo: 'assets/business-logos/5721cdf10000ff00058c2172-198x149-1x.avif' },
-        { name: 'Wingmirrorparts', url: 'wingmirrorparts.com', rating: 4.6, count: '846', stars: 4.5, logo: 'assets/business-logos/664f446917b01faefa8177df-198x149-1x.avif' },
+        { name: 'Wingmirrorparts', url: 'wingmirrorparts.com', rating: 4.6, count: '846', stars: 4.5, logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=wingmirrorparts&backgroundColor=4583FF,F58C30,00B67A&size=200' },
         { name: 'Car Wing Mirror Glass', url: 'carwingmirrorglass.co.uk', rating: 3.8, count: '41', stars: 4, logo: 'assets/business-logos/61cac1d0d2e1a77e56bf0966-198x149-1x.avif' },
         { name: 'Thewingmirrorcompany', url: 'www.thewingmirrorcompany.co.uk', rating: 4.5, count: '306', stars: 4.5, logo: 'assets/business-logos/5c0fa870ba7f24000112d9ab-198x149-1x.avif' },
         { name: 'Onlinecarparts - Great Britain', url: 'onlinecarparts.co.uk', rating: 4.1, count: '2k', stars: 4, logo: 'assets/business-logos/5803f8d80000ff0005962008-198x149-1x.avif' },
