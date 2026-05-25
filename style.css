@@ -307,8 +307,8 @@ img {
 }
 
 .company-logo {
-    width: 112px;
-    height: 128px;
+    width: 180px;
+    height: 144px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
