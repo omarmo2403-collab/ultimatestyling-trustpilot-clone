@@ -61,13 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Thumb feedback
-    document.querySelectorAll('.thumb-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.thumb-btn').forEach(b => b.style.color = '#6E7689');
-            btn.style.color = '#1F3DAD';
-        });
-    });
+    // Thumb feedback is handled natively — `.thumb-btn` is now an <a> tag
+    // pointing to the Trustpilot login page (target="_blank"). No JS needed.
 
     // Review summary expand/collapse
     const summaryBody = document.querySelector('.summary-body');
@@ -802,13 +797,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const PAGE_SIZE = 20;
 
         // Star distribution must match the rating bars shown in the UI:
-        // 5★ 89% | 4★ 5% | 3★ 1% | 2★ <1% | 1★ 4%
+        // 5★ 98% | 4★ 1% | 3★ <1% | 2★ <1% | 1★ 1%
         const assignStars = (index) => {
             const pct = (index / TOTAL_REVIEWS) * 100;
-            if (pct < 89) return 5;
-            if (pct < 94) return 4;
-            if (pct < 95) return 3;
-            if (pct < 96) return 2;
+            if (pct < 98) return 5;
+            if (pct < 99) return 4;
+            if (pct < 99.5) return 3;
+            if (pct < 99.9) return 2;
             return 1;
         };
 
